@@ -4,21 +4,40 @@ import com.tenetmind.loansfront.currency.domainmodel.CurrencyDto;
 import com.tenetmind.loansfront.customer.domainmodel.CustomerDto;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 
+import java.io.Serializable;
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
 
 @AllArgsConstructor
+@NoArgsConstructor
 @Getter
-public class LoanApplicationDto {
+@Setter
+public class LoanApplicationDto implements Serializable {
 
-    private final Long id;
-    private final LocalDateTime date;
-    private final CustomerDto customerDto;
-    private final CurrencyDto currencyDto;
-    private final BigDecimal amount;
-    private final Integer period;
-    private final BigDecimal marginRate;
-    private final String status;
+    private Long id;
+    private LocalDateTime date;
+    private CustomerDto customerDto;
+    private CurrencyDto currencyDto;
+    private BigDecimal amount;
+    private Integer period;
+    private BigDecimal marginRate;
+    private String status;
+
+    @Override
+    public String toString() {
+        return "LoanApplicationDto{" +
+                "id=" + id +
+                ", date=" + date +
+                ", customerDto=" + customerDto +
+                ", currencyDto=" + currencyDto +
+                ", amount=" + amount +
+                ", period=" + period +
+                ", marginRate=" + marginRate +
+                ", status='" + status + '\'' +
+                '}';
+    }
 
 }

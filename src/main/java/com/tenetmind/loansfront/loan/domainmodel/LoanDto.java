@@ -7,29 +7,54 @@ import com.tenetmind.loansfront.installment.domainmodel.InstallmentDto;
 import com.tenetmind.loansfront.operation.domainmodel.OperationDto;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
 import java.util.List;
 
 @AllArgsConstructor
+@NoArgsConstructor
 @Getter
+@Setter
 public class LoanDto {
 
-    private final Long id;
-    private final LocalDateTime date;
-    private final LoanApplicationDto applicationDto;
-    private final CustomerDto customerDto;
-    private final CurrencyDto currencyDto;
-    private final BigDecimal amount;
-    private final Integer period;
-    private final BigDecimal baseRate;
-    private final BigDecimal marginRate;
-    private final BigDecimal balance;
-    private final BigDecimal amountToPay;
-    private final Integer numberOfInstallmentsPaid;
-    private final String status;
-    private final List<InstallmentDto> scheduleDto;
-    private final List<OperationDto> operationDtos;
+    private Long id;
+    private LocalDateTime date;
+    private LoanApplicationDto applicationDto;
+    private CustomerDto customerDto;
+    private CurrencyDto currencyDto;
+    private BigDecimal amount;
+    private Integer period;
+    private BigDecimal baseRate;
+    private BigDecimal marginRate;
+    private BigDecimal balance;
+    private BigDecimal amountToPay;
+    private Integer numberOfInstallmentsPaid;
+    private String status;
+    private List<InstallmentDto> scheduleDto;
+    private List<OperationDto> operationDtos;
+
+    @Override
+    public String toString() {
+        return "LoanDto{" +
+                "id=" + id +
+                ", date=" + date +
+                ", applicationDto=" + applicationDto +
+                ", customerDto=" + customerDto +
+                ", currencyDto=" + currencyDto +
+                ", amount=" + amount +
+                ", period=" + period +
+                ", baseRate=" + baseRate +
+                ", marginRate=" + marginRate +
+                ", balance=" + balance +
+                ", amountToPay=" + amountToPay +
+                ", numberOfInstallmentsPaid=" + numberOfInstallmentsPaid +
+                ", status='" + status + '\'' +
+                ", scheduleDto=" + scheduleDto +
+                ", operationDtos=" + operationDtos +
+                '}';
+    }
 
 }

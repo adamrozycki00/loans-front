@@ -1,6 +1,7 @@
 package com.tenetmind.loansfront.installment.domainmodel;
 
 import com.tenetmind.loansfront.currency.domainmodel.CurrencyMapper;
+import com.tenetmind.loansfront.loan.client.LoanClient;
 import com.tenetmind.loansfront.loan.domainmodel.LoanMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -12,6 +13,9 @@ import java.util.stream.Collectors;
 public class InstallmentMapper {
 
     @Autowired
+    private LoanClient loanClient;
+
+    @Autowired
     private LoanMapper loanMapper;
 
     @Autowired
@@ -20,7 +24,7 @@ public class InstallmentMapper {
     public Installment mapToNewEntity(final InstallmentDto dto) {
         return new Installment(
                 dto.getDate(),
-                loanMapper.mapToExistingEntity(dto.getLoanDto()),
+                loanMapper.mapToExistingEntity(loanClient.getLoanDto(dto.getLoanId())),
                 dto.getNumber(),
                 dto.getPrincipal(),
                 dto.getInterest());
@@ -30,7 +34,7 @@ public class InstallmentMapper {
         return new Installment(
                 dto.getId(),
                 dto.getDate(),
-                loanMapper.mapToExistingEntity(dto.getLoanDto()),
+                loanMapper.mapToExistingEntity(loanClient.getLoanDto(dto.getLoanId())),
                 dto.getNumber(),
                 currencyMapper.mapToExistingEntity(dto.getCurrencyDto()),
                 dto.getPrincipal(),
@@ -41,7 +45,7 @@ public class InstallmentMapper {
         return new InstallmentDto(
                 entity.getId(),
                 entity.getDate(),
-                loanMapper.mapToDto(entity.getLoan()),
+                entity.getLoan().getId(),
                 entity.getNumber(),
                 currencyMapper.mapToDto(entity.getCurrency()),
                 entity.getPrincipal(),

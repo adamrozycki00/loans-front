@@ -21,16 +21,14 @@ dependencies {
     annotationProcessor('org.projectlombok:lombok')
     compileOnly('org.projectlombok:lombok')
 
-    implementation 'com.vaadin:vaadin-spring-boot-starter'
-    testImplementation 'org.springframework.boot:spring-boot-starter-test'
+    implementation('com.vaadin:vaadin-spring-boot-starter')
+
+    testCompile('org.springframework.boot:spring-boot-starter-test')
+    testCompile('junit:junit:4.13')
 }
 
 dependencyManagement {
     imports {
         mavenBom "com.vaadin:vaadin-bom:${vaadinVersion}"
     }
-}
-
-test {
-    useJUnitPlatform()
 }

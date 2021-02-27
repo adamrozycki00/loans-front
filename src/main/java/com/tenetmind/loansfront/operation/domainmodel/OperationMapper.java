@@ -1,6 +1,7 @@
 package com.tenetmind.loansfront.operation.domainmodel;
 
 import com.tenetmind.loansfront.currency.domainmodel.CurrencyMapper;
+import com.tenetmind.loansfront.loan.client.LoanClient;
 import com.tenetmind.loansfront.loan.domainmodel.LoanMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -12,6 +13,9 @@ import java.util.stream.Collectors;
 public class OperationMapper {
 
     @Autowired
+    private LoanClient loanClient;
+
+    @Autowired
     private LoanMapper loanMapper;
 
     @Autowired
@@ -20,7 +24,7 @@ public class OperationMapper {
     public Operation mapToNewEntity(final OperationDto dto) {
         return new Operation(
                 dto.getDate(),
-                loanMapper.mapToExistingEntity(dto.getLoanDto()),
+                loanMapper.mapToExistingEntity(loanClient.getLoanDto(dto.getLoanId())),
                 dto.getType(),
                 currencyMapper.mapToExistingEntity(dto.getCurrencyDto()),
                 dto.getAmount(),
@@ -31,7 +35,7 @@ public class OperationMapper {
         return new Operation(
                 dto.getId(),
                 dto.getDate(),
-                loanMapper.mapToExistingEntity(dto.getLoanDto()),
+                loanMapper.mapToExistingEntity(loanClient.getLoanDto(dto.getLoanId())),
                 dto.getType(),
                 currencyMapper.mapToExistingEntity(dto.getCurrencyDto()),
                 dto.getAmount(),
@@ -42,7 +46,7 @@ public class OperationMapper {
         return new OperationDto(
                 entity.getId(),
                 entity.getDate(),
-                loanMapper.mapToDto(entity.getLoan()),
+                entity.getLoan().getId(),
                 entity.getType(),
                 currencyMapper.mapToDto(entity.getCurrency()),
                 entity.getAmount(),

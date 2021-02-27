@@ -2,12 +2,24 @@ package com.tenetmind.loansfront.currency.domainmodel;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 @AllArgsConstructor
+@NoArgsConstructor
 @Getter
+@Setter
 public class CurrencyDto {
 
-    private final Long id;
-    private final String name;
+    private Long id;
+    private String name;
+
+    @Override
+    public String toString() {
+        return "CurrencyDto{" +
+                "id=" + id +
+                ", name='" + name + '\'' +
+                '}';
+    }
 
 }
