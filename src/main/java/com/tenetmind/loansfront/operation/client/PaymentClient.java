@@ -21,24 +21,14 @@ public class PaymentClient {
     private RestTemplate restTemplate;
 
     public boolean payInstallment(PaymentDto dto) {
-        HttpHeaders headers = new HttpHeaders();
-        headers.setContentType(MediaType.APPLICATION_JSON);
-        headers.setAccept(Collections.singletonList(MediaType.APPLICATION_JSON));
-
-        HttpEntity<PaymentDto> entity = new HttpEntity<>(dto, headers);
-
-        ResponseEntity<PaymentDto> response =
-                restTemplate.postForEntity(config.getEndpoint() + PAY_INSTALLMENT, entity, PaymentDto.class);
-
-        if (response.getStatusCode() == HttpStatus.OK) {
-            return true;
-        } else {
-            System.out.println(response.getStatusCode());
-            return false;
-        }
+        return postForEntity(config.getEndpoint() + PAY_INSTALLMENT, dto);
     }
 
     public boolean makeLoan(PaymentDto dto) {
+        return postForEntity(config.getEndpoint() + MAKE_LOAN, dto);
+    }
+
+    private boolean postForEntity(String url, PaymentDto dto) {
         HttpHeaders headers = new HttpHeaders();
         headers.setContentType(MediaType.APPLICATION_JSON);
         headers.setAccept(Collections.singletonList(MediaType.APPLICATION_JSON));
@@ -46,7 +36,7 @@ public class PaymentClient {
         HttpEntity<PaymentDto> entity = new HttpEntity<>(dto, headers);
 
         ResponseEntity<PaymentDto> response =
-                restTemplate.postForEntity(config.getEndpoint() + MAKE_LOAN, entity, PaymentDto.class);
+                restTemplate.postForEntity(url, entity, PaymentDto.class);
 
         if (response.getStatusCode() == HttpStatus.OK) {
             return true;
