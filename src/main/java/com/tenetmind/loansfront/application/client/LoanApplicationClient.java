@@ -10,6 +10,10 @@ import org.springframework.web.client.RestTemplate;
 import java.util.Collections;
 import java.util.List;
 
+import static java.util.Collections.singletonList;
+import static org.springframework.http.HttpMethod.PUT;
+import static org.springframework.http.MediaType.APPLICATION_JSON;
+
 @Component
 public class LoanApplicationClient {
 
@@ -46,6 +50,28 @@ public class LoanApplicationClient {
 
         ResponseEntity<LoanApplicationDto> response =
                 restTemplate.postForEntity(config.getEndpoint(), entity, LoanApplicationDto.class);
+
+        if (response.getStatusCode() == HttpStatus.OK) {
+            return true;
+        } else {
+            System.out.println(response.getStatusCode());
+            return false;
+        }
+    }
+
+    public boolean updateApplication(LoanApplicationDto dto) {
+        HttpHeaders headers = new HttpHeaders();
+        headers.setContentType(APPLICATION_JSON);
+        headers.setAccept(singletonList(APPLICATION_JSON));
+
+        HttpEntity<LoanApplicationDto> request = new HttpEntity<>(dto, headers);
+
+        ResponseEntity<LoanApplicationDto> response = restTemplate.exchange(
+                config.getEndpoint(),
+                PUT,
+                request,
+                LoanApplicationDto.class,
+                1);
 
         if (response.getStatusCode() == HttpStatus.OK) {
             return true;
