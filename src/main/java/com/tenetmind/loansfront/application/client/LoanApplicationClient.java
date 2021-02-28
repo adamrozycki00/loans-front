@@ -7,6 +7,7 @@ import org.springframework.http.*;
 import org.springframework.stereotype.Component;
 import org.springframework.web.client.RestTemplate;
 
+import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 
@@ -25,7 +26,10 @@ public class LoanApplicationClient {
 
     public List<LoanApplicationDto> getApplicationDtos() {
         try {
-            return (List<LoanApplicationDto>) restTemplate.getForObject(config.getEndpoint(), List.class);
+            LoanApplicationDto[] response = restTemplate.getForObject(config.getEndpoint(), LoanApplicationDto[].class);
+            assert response != null;
+            return Arrays.asList(response.clone());
+
         } catch (Exception e) {
             e.printStackTrace();
             return null;

@@ -29,32 +29,32 @@ public class LoanMapper {
     @Autowired
     private OperationMapper operationMapper;
 
-    public Loan mapToNewEntity(final LoanDto dto) {
-        return new Loan(
-                dto.getDate(),
-                applicationMapper.mapToExistingEntity(dto.getApplicationDto()),
-                dto.getBaseRate());
-    }
+//    public Loan mapToNewEntity(final LoanDto dto) {
+//        return new Loan(
+//                dto.getDate(),
+//                applicationMapper.mapFromDto(dto.getApplicationDto()),
+//                dto.getBaseRate());
+//    }
 
-    public Loan mapToExistingEntity(final LoanDto dto) {
-        return new Loan(
-                dto.getId(),
-                dto.getDate(),
-                applicationMapper.mapToExistingEntity(dto.getApplicationDto()),
-                customerMapper.mapToExistingEntity(dto.getCustomerDto()),
-                currencyMapper.mapToExistingEntity(dto.getCurrencyDto()),
-                dto.getAmount(),
-                dto.getPeriod(),
-                dto.getBaseRate(),
-                dto.getMarginRate(),
-                dto.getBalance(),
-                dto.getAmountToPay(),
-                dto.getNumberOfInstallmentsPaid(),
-                dto.getStatus(),
-                installmentMapper.mapToEntityList(dto.getScheduleDto()),
-                operationMapper.mapToEntityList(dto.getOperationDtos())
-        );
-    }
+//    public Loan mapToExistingEntity(final LoanDto dto) {
+//        return new Loan(
+//                dto.getId(),
+//                dto.getDate(),
+//                applicationMapper.mapToExistingEntity(dto.getApplicationDto()),
+//                customerMapper.mapToExistingEntity(dto.getCustomerDto()),
+//                currencyMapper.mapToExistingEntity(dto.getCurrencyDto()),
+//                dto.getAmount(),
+//                dto.getPeriod(),
+//                dto.getBaseRate(),
+//                dto.getMarginRate(),
+//                dto.getBalance(),
+//                dto.getAmountToPay(),
+//                dto.getNumberOfInstallmentsPaid(),
+//                dto.getStatus(),
+//                installmentMapper.mapToEntityList(dto.getScheduleDto()),
+//                operationMapper.mapToEntityList(dto.getOperationDtos())
+//        );
+//    }
 
     public LoanDto mapToDto(final Loan entity) {
         return new LoanDto(

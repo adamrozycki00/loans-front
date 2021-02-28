@@ -12,6 +12,7 @@ import java.util.List;
 
 import static java.util.Collections.singletonList;
 import static org.springframework.http.HttpMethod.DELETE;
+import static org.springframework.http.HttpMethod.PUT;
 import static org.springframework.http.MediaType.APPLICATION_JSON;
 
 @Component
@@ -61,7 +62,6 @@ public class CurrencyClient {
 
     public boolean deleteCurrency(Long id) {
         HttpHeaders headers = new HttpHeaders();
-
         headers.setContentType(APPLICATION_JSON);
         headers.setAccept(singletonList(APPLICATION_JSON));
 
@@ -72,8 +72,7 @@ public class CurrencyClient {
                 DELETE,
                 request,
                 CurrencyDto.class,
-                1
-        );
+                1);
 
         if (response.getStatusCode() == HttpStatus.OK) {
             return true;
@@ -83,4 +82,25 @@ public class CurrencyClient {
         }
     }
 
+    public boolean updateCurrency(CurrencyDto currency) {
+        HttpHeaders headers = new HttpHeaders();
+        headers.setContentType(APPLICATION_JSON);
+        headers.setAccept(singletonList(APPLICATION_JSON));
+
+        HttpEntity<CurrencyDto> request = new HttpEntity<>(headers);
+
+        ResponseEntity<CurrencyDto> response = restTemplate.exchange(
+                config.getEndpoint(),
+                PUT,
+                request,
+                CurrencyDto.class,
+                1);
+
+        if (response.getStatusCode() == HttpStatus.OK) {
+            return true;
+        } else {
+            System.out.println(response.getStatusCode());
+            return false;
+        }
+    }
 }

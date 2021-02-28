@@ -21,25 +21,25 @@ public class InstallmentMapper {
     @Autowired
     private CurrencyMapper currencyMapper;
 
-    public Installment mapToNewEntity(final InstallmentDto dto) {
-        return new Installment(
-                dto.getDate(),
-                loanMapper.mapToExistingEntity(loanClient.getLoanDto(dto.getLoanId())),
-                dto.getNumber(),
-                dto.getPrincipal(),
-                dto.getInterest());
-    }
+//    public Installment mapToNewEntity(final InstallmentDto dto) {
+//        return new Installment(
+//                dto.getDate(),
+//                loanMapper.mapToExistingEntity(loanClient.getLoanDto(dto.getLoanId())),
+//                dto.getNumber(),
+//                dto.getPrincipal(),
+//                dto.getInterest());
+//    }
 
-    public Installment mapToExistingEntity(final InstallmentDto dto) {
-        return new Installment(
-                dto.getId(),
-                dto.getDate(),
-                loanMapper.mapToExistingEntity(loanClient.getLoanDto(dto.getLoanId())),
-                dto.getNumber(),
-                currencyMapper.mapToExistingEntity(dto.getCurrencyDto()),
-                dto.getPrincipal(),
-                dto.getInterest());
-    }
+//    public Installment mapToExistingEntity(final InstallmentDto dto) {
+//        return new Installment(
+//                dto.getId(),
+//                dto.getDate(),
+//                loanMapper.mapToExistingEntity(loanClient.getLoanDto(dto.getLoanId())),
+//                dto.getNumber(),
+//                currencyMapper.mapToExistingEntity(dto.getCurrencyDto()),
+//                dto.getPrincipal(),
+//                dto.getInterest());
+//    }
 
     public InstallmentDto mapToDto(final Installment entity) {
         return new InstallmentDto(
@@ -58,10 +58,10 @@ public class InstallmentMapper {
                 .collect(Collectors.toList());
     }
 
-    public List<Installment> mapToEntityList(final List<InstallmentDto> installmentDtos) {
-        return installmentDtos.stream()
-                .map(this::mapToExistingEntity)
-                .collect(Collectors.toList());
-    }
+//    public List<Installment> mapToEntityList(final List<InstallmentDto> installmentDtos) {
+//        return installmentDtos.stream()
+//                .map(this::mapToExistingEntity)
+//                .collect(Collectors.toList());
+//    }
 
 }

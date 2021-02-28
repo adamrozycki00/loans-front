@@ -21,26 +21,26 @@ public class OperationMapper {
     @Autowired
     private CurrencyMapper currencyMapper;
 
-    public Operation mapToNewEntity(final OperationDto dto) {
-        return new Operation(
-                dto.getDate(),
-                loanMapper.mapToExistingEntity(loanClient.getLoanDto(dto.getLoanId())),
-                dto.getType(),
-                currencyMapper.mapToExistingEntity(dto.getCurrencyDto()),
-                dto.getAmount(),
-                dto.getPlnAmount());
-    }
+//    public Operation mapToNewEntity(final OperationDto dto) {
+//        return new Operation(
+//                dto.getDate(),
+//                loanMapper.mapToExistingEntity(loanClient.getLoanDto(dto.getLoanId())),
+//                dto.getType(),
+//                currencyMapper.mapToExistingEntity(dto.getCurrencyDto()),
+//                dto.getAmount(),
+//                dto.getPlnAmount());
+//    }
 
-    public Operation mapToExistingEntity(final OperationDto dto) {
-        return new Operation(
-                dto.getId(),
-                dto.getDate(),
-                loanMapper.mapToExistingEntity(loanClient.getLoanDto(dto.getLoanId())),
-                dto.getType(),
-                currencyMapper.mapToExistingEntity(dto.getCurrencyDto()),
-                dto.getAmount(),
-                dto.getPlnAmount());
-    }
+//    public Operation mapToExistingEntity(final OperationDto dto) {
+//        return new Operation(
+//                dto.getId(),
+//                dto.getDate(),
+//                loanMapper.mapToExistingEntity(loanClient.getLoanDto(dto.getLoanId())),
+//                dto.getType(),
+//                currencyMapper.mapToExistingEntity(dto.getCurrencyDto()),
+//                dto.getAmount(),
+//                dto.getPlnAmount());
+//    }
 
     public OperationDto mapToDto(final Operation entity) {
         return new OperationDto(
@@ -59,10 +59,10 @@ public class OperationMapper {
                 .collect(Collectors.toList());
     }
 
-    public List<Operation> mapToEntityList(final List<OperationDto> operationDtos) {
-        return operationDtos.stream()
-                .map(this::mapToExistingEntity)
-                .collect(Collectors.toList());
-    }
+//    public List<Operation> mapToEntityList(final List<OperationDto> operationDtos) {
+//        return operationDtos.stream()
+//                .map(this::mapToExistingEntity)
+//                .collect(Collectors.toList());
+//    }
 
 }
