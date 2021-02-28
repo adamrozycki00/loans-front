@@ -44,21 +44,32 @@ public class LoanApplicationService {
     }
 
     public boolean save(LoanApplication application) {
-        if (application.getStatus().equals(NEW))
-            return client.createApplication(mapper.mapToDto(application));
+        if (application.getStatus().equals(NEW)) {
+            if (application.getId() == null) {
+                return client.createApplication(mapper.mapToDto(application));
+            } else {
+                return update(application);
+            }
+        }
+
+        LoanApplicationDto applicationInDB = getDto(Long.parseLong(application.getId()));
+        if (!application.getStatus().equals(applicationInDB.getStatus()))
+            return update(application);
+
         return false;
     }
 
-    public boolean update(LoanApplicationDto application) {
-        return client.updateApplication(application);
-    }
-
-    public boolean delete(Long id) {
-        return client.deleteApplication(id);
+    public boolean update(LoanApplication application) {
+        return client.updateApplication(mapper.mapToDto(application));
     }
 
     public boolean delete(LoanApplication application) {
-        return client.deleteApplication(Long.parseLong(application.getId()));
+        if (application.getStatus().equals(NEW)) {
+            if (application.getId() != null) {
+                return client.deleteApplication(Long.parseLong(application.getId()));
+            }
+        }
+        return false;
     }
 
     @Override
