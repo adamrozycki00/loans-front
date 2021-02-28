@@ -5,6 +5,7 @@ import com.tenetmind.loansfront.loan.domainmodel.LoanDto;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.math.BigDecimal;
 import java.util.List;
 
 @Service
@@ -27,6 +28,10 @@ public class LoanService {
 
     public boolean update(LoanDto application) {
         return client.updateLoan(application);
+    }
+
+    public BigDecimal getAmountOfNextInstallment(LoanDto loanDto) {
+        return client.getAmountOfNextInstallment(loanDto);
     }
 
 }

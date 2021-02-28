@@ -1,6 +1,7 @@
 package com.tenetmind.loansfront.loan.client;
 
 import com.tenetmind.loansfront.application.domainmodel.LoanApplicationDto;
+import com.tenetmind.loansfront.installment.domainmodel.InstallmentDto;
 import com.tenetmind.loansfront.loan.client.config.LoanConfiguration;
 import com.tenetmind.loansfront.loan.domainmodel.LoanDto;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -8,8 +9,11 @@ import org.springframework.http.*;
 import org.springframework.stereotype.Component;
 import org.springframework.web.client.RestTemplate;
 
+import java.math.BigDecimal;
+import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import static java.util.Collections.singletonList;
 import static org.springframework.http.HttpMethod.PUT;
@@ -26,7 +30,10 @@ public class LoanClient {
 
     public List<LoanDto> getLoanDtos() {
         try {
-            return (List<LoanDto>) restTemplate.getForObject(config.getEndpoint(), List.class);
+            LoanDto[] response = restTemplate.getForObject(config.getEndpoint(), LoanDto[].class);
+            assert response != null;
+            return Arrays.asList(response.clone());
+
         } catch (Exception e) {
             e.printStackTrace();
             return null;
@@ -80,6 +87,14 @@ public class LoanClient {
             System.out.println(response.getStatusCode());
             return false;
         }
+    }
+
+    public BigDecimal getAmountOfNextInstallment(LoanDto loanDto) {
+        final int numberOfNextInstallment = loanDto.getNumberOfInstallmentsPaid() + 1;
+        InstallmentDto nextInstallment = loanDto.getScheduleDto().stream()
+                .filter(installment -> installment.getNumber() == numberOfNextInstallment)
+                .collect(Collectors.toList()).get(0);
+        return nextInstallment.getPrincipal().add(nextInstallment.getInterest());
     }
 
 }

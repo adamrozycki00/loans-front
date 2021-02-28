@@ -1,14 +1,12 @@
 package com.tenetmind.loansfront.application.service;
 
 import com.tenetmind.loansfront.application.client.LoanApplicationClient;
-import com.tenetmind.loansfront.application.domainmodel.LoanApplication;
 import com.tenetmind.loansfront.application.domainmodel.LoanApplicationDto;
 import com.tenetmind.loansfront.application.domainmodel.LoanApplicationMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
-import java.util.stream.Collectors;
 
 @Service
 public class LoanApplicationService {
@@ -23,10 +21,8 @@ public class LoanApplicationService {
         return client.getApplicationDto(id);
     }
 
-    public List<LoanApplication> getAll() {
-        return client.getApplicationDtos().stream()
-                .map(mapper::mapFromDto)
-                .collect(Collectors.toList());
+    public List<LoanApplicationDto> getAll() {
+        return client.getApplicationDtos();
     }
 
     public boolean save(LoanApplicationDto application) {
