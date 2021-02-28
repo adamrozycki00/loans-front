@@ -1,48 +1,30 @@
 package com.tenetmind.loansfront.application.domainmodel;
 
-import com.tenetmind.loansfront.currency.domainmodel.CurrencyMapper;
-import com.tenetmind.loansfront.currency.service.CurrencyService;
-import com.tenetmind.loansfront.customer.domainmodel.Customer;
-import com.tenetmind.loansfront.customer.domainmodel.CustomerMapper;
-import org.springframework.beans.factory.annotation.Autowired;
+import com.tenetmind.loansfront.currency.domainmodel.CurrencyDto;
+import com.tenetmind.loansfront.customer.domainmodel.CustomerDto;
 import org.springframework.stereotype.Component;
 
+import java.math.BigDecimal;
 import java.util.List;
 import java.util.stream.Collectors;
 
 @Component
 public class LoanApplicationMapper {
 
-    @Autowired
-    private CustomerMapper customerMapper;
-
-    @Autowired
-    private CurrencyService currencyService;
-
-    public LoanApplication mapFromDto(final LoanApplicationDto dto) {
-        return new LoanApplication(
-                dto.getId(),
-                dto.getDate(),
-                dto.getCustomerDto().getFirstName(),
-                dto.getCustomerDto().getLastName(),
-                dto.getCustomerDto().getPesel(),
-                dto.getCurrencyDto().getName(),
-                dto.getAmount(),
-                dto.getPeriod(),
-                dto.getMarginRate(),
-                dto.getStatus());
-    }
-
-    public LoanApplicationDto mapToDto(final LoanApplication entity) {
+    public LoanApplicationDto mapToDto(final LoanApplication application) {
         return new LoanApplicationDto(
-                entity.getId(),
-                entity.getDate(),
-                customerMapper.mapToDto(new Customer(entity.getFirstName(), entity.getLastName(), entity.getPesel())),
-                currencyService.get(entity.getCurrency()),
-                entity.getAmount(),
-                entity.getPeriod(),
-                entity.getMarginRate(),
-                entity.getStatus());
+                Long.parseLong(application.getId()),
+                application.getDate(),
+                new CustomerDto(Long.parseLong(application.getCustomerId()),
+                        application.getFirstName(),
+                        application.getLastName(),
+                        application.getPesel()),
+                new CurrencyDto(Long.parseLong(application.getCurrencyId()),
+                        application.getCurrency()),
+                new BigDecimal(application.getAmount()),
+                Integer.parseInt(application.getPeriod()),
+                new BigDecimal(application.getMarginRate()),
+                application.getStatus());
     }
 
     public List<LoanApplicationDto> mapToDtoList(final List<LoanApplication> loanApplications) {

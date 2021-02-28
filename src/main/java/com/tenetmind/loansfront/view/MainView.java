@@ -1,6 +1,6 @@
 package com.tenetmind.loansfront.view;
 
-import com.tenetmind.loansfront.application.domainmodel.LoanApplicationDto;
+import com.tenetmind.loansfront.application.domainmodel.LoanApplication;
 import com.tenetmind.loansfront.application.service.LoanApplicationService;
 import com.tenetmind.loansfront.loan.domainmodel.LoanDto;
 import com.tenetmind.loansfront.loan.service.LoanService;
@@ -21,7 +21,7 @@ public class MainView extends VerticalLayout {
     private final LoanService loanService;
     private final ApplicationForm applicationForm = new ApplicationForm(this);
 
-    private final Grid<LoanApplicationDto> applicationGrid = new Grid<>();
+    private final Grid<LoanApplication> applicationGrid = new Grid<>();
     private final Grid<LoanDto> loanGrid = new Grid<>();
 
     @Autowired
@@ -53,15 +53,15 @@ public class MainView extends VerticalLayout {
     }
 
     private void prepareApplicationGrid() {
-        applicationGrid.addColumn(appl -> appl.getDate().toLocalDate()).setHeader("Date");
-        applicationGrid.addColumn(appl -> appl.getCustomerDto().getFirstName()).setHeader("First name");
-        applicationGrid.addColumn(appl -> appl.getCustomerDto().getLastName()).setHeader("Last name");
-        applicationGrid.addColumn(appl -> appl.getCustomerDto().getPesel()).setHeader("PESEL");
-        applicationGrid.addColumn(appl -> appl.getCurrencyDto().getName()).setHeader("Currency");
-        applicationGrid.addColumn(LoanApplicationDto::getAmount).setHeader("Amount");
-        applicationGrid.addColumn(LoanApplicationDto::getPeriod).setHeader("Period");
-        applicationGrid.addColumn(LoanApplicationDto::getMarginRate).setHeader("Margin rate");
-        applicationGrid.addColumn(LoanApplicationDto::getStatus).setHeader("Status");
+        applicationGrid.addColumn(LoanApplication::getDateString).setHeader("Date");
+        applicationGrid.addColumn(LoanApplication::getFirstName).setHeader("First name");
+        applicationGrid.addColumn(LoanApplication::getLastName).setHeader("Last name");
+        applicationGrid.addColumn(LoanApplication::getPesel).setHeader("PESEL");
+        applicationGrid.addColumn(LoanApplication::getCurrency).setHeader("Currency");
+        applicationGrid.addColumn(LoanApplication::getAmount).setHeader("Amount");
+        applicationGrid.addColumn(LoanApplication::getPeriod).setHeader("Period");
+        applicationGrid.addColumn(LoanApplication::getMarginRate).setHeader("Margin rate");
+        applicationGrid.addColumn(LoanApplication::getStatus).setHeader("Status");
     }
 
     private void prepareLoanGrid(LoanService loanService) {

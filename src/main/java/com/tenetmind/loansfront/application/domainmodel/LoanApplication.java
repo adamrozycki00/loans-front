@@ -1,40 +1,46 @@
 package com.tenetmind.loansfront.application.domainmodel;
 
+import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-import java.math.BigDecimal;
 import java.time.LocalDateTime;
 
+@AllArgsConstructor
 @NoArgsConstructor
 @Getter
 @Setter
 public class LoanApplication {
 
-    private Long id;
+    private String id;
     private LocalDateTime date;
+    private String dateString;
+    private String customerId;
     private String firstName;
     private String lastName;
     private String pesel;
+    private String currencyId;
     private String currency;
-    private BigDecimal amount;
-    private Integer period;
-    private BigDecimal marginRate;
+    private String amount;
+    private String period;
+    private String marginRate;
     private String status;
 
-    public LoanApplication(Long id, LocalDateTime date, String firstName, String lastName, String pesel,
-                           String currency, BigDecimal amount, Integer period, BigDecimal marginRate, String status) {
-        this.id = id;
-        this.date = date;
-        this.firstName = firstName;
-        this.lastName = lastName;
-        this.pesel = pesel;
-        this.currency = currency;
-        this.amount = amount;
-        this.period = period;
-        this.marginRate = marginRate;
-        this.status = status;
+    public LoanApplication(LoanApplicationDto dto) {
+        this.id = dto.getId().toString();
+        this.date = dto.getDate();
+        this.dateString = dto.getDate().toLocalDate().toString();
+        this.customerId = dto.getCustomerDto().getId().toString();
+        this.firstName = dto.getCustomerDto().getFirstName();
+        this.lastName = dto.getCustomerDto().getLastName();
+        this.pesel = dto.getCustomerDto().getPesel();
+        this.currencyId = dto.getCurrencyDto().getId().toString();
+        this.currency = dto.getCurrencyDto().getName();
+        this.amount = dto.getAmount().toString();
+        this.period = dto.getPeriod().toString();
+        this.marginRate = dto.getMarginRate().toString();
+        this.status = dto.getStatus();
     }
 
     public void setStatus(String status) {
@@ -61,9 +67,11 @@ public class LoanApplication {
         return "LoanApplication{" +
                 "id=" + id +
                 ", date=" + date +
+                ", customerId=" + customerId +
                 ", firstName='" + firstName + '\'' +
                 ", lastName='" + lastName + '\'' +
                 ", pesel='" + pesel + '\'' +
+                ", currencyId=" + currencyId +
                 ", currency='" + currency + '\'' +
                 ", amount=" + amount +
                 ", period=" + period +
