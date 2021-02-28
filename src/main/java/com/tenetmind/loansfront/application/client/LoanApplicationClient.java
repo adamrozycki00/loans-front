@@ -2,7 +2,6 @@ package com.tenetmind.loansfront.application.client;
 
 import com.tenetmind.loansfront.application.client.config.LoanApplicationConfiguration;
 import com.tenetmind.loansfront.application.domainmodel.LoanApplicationDto;
-import com.tenetmind.loansfront.currency.domainmodel.CurrencyDto;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.*;
 import org.springframework.stereotype.Component;

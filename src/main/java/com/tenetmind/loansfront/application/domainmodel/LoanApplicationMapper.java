@@ -20,7 +20,7 @@ public class LoanApplicationMapper {
     public LoanApplicationDto mapToDto(final LoanApplication application) {
         return new LoanApplicationDto(
                 application.getId() == null ? null : Long.parseLong(application.getId()),
-                LocalDateTime.now(),
+                application.getDate(),
                 new CustomerDto(
                         application.getCustomerId() == null ? null : Long.parseLong(application.getCustomerId()),
                         application.getFirstName(),

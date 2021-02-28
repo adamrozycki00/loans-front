@@ -4,11 +4,11 @@ import com.tenetmind.loansfront.application.client.LoanApplicationClient;
 import com.tenetmind.loansfront.application.domainmodel.LoanApplication;
 import com.tenetmind.loansfront.application.domainmodel.LoanApplicationDto;
 import com.tenetmind.loansfront.application.domainmodel.LoanApplicationMapper;
-import com.tenetmind.loansfront.currency.domainmodel.CurrencyDto;
 import com.vaadin.flow.component.notification.Notification;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -17,8 +17,6 @@ public class LoanApplicationService {
 
     private final String NEW = "New";
     private final String ACCEPTED = "Accepted";
-    private final String CANCELED = "Canceled";
-    private final String DENIED = "Denied";
 
     @Autowired
     private LoanApplicationClient client;
@@ -45,6 +43,9 @@ public class LoanApplicationService {
     }
 
     public boolean save(LoanApplication application) {
+        if (application.getStatus() == null) {
+            application = initialize(application);
+        }
         if (application.getStatus().equals(NEW)) {
             if (application.getId() == null) {
                 return client.createApplication(mapper.mapToDto(application));
@@ -65,13 +66,30 @@ public class LoanApplicationService {
     }
 
     public boolean delete(LoanApplication application) {
-        if (application.getStatus().equals(NEW)) {
+        if (NEW.equals(application.getStatus())) {
             if (application.getId() != null) {
                 return client.deleteApplication(Long.parseLong(application.getId()));
             }
         }
-        Notification.show("You can only delete new applications.");
+        Notification.show("You can only delete saved new applications");
         return false;
+    }
+
+    public boolean accept(LoanApplication application) {
+        if (NEW.equals(application.getStatus())) {
+            if (application.getId() != null) {
+                application.setStatus(ACCEPTED);
+                return client.updateApplication(mapper.mapToDto(application));
+            }
+        }
+        Notification.show("You can only accept saved new applications");
+        return false;
+    }
+
+    public LoanApplication initialize(LoanApplication application) {
+        application.setDate(LocalDateTime.now());
+        application.setStatus(NEW);
+        return application;
     }
 
     @Override
