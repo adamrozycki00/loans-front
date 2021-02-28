@@ -5,7 +5,9 @@ import com.tenetmind.loansfront.application.service.LoanApplicationService;
 import com.tenetmind.loansfront.loan.domainmodel.LoanDto;
 import com.tenetmind.loansfront.loan.service.LoanService;
 import com.vaadin.flow.component.Text;
+import com.vaadin.flow.component.button.Button;
 import com.vaadin.flow.component.grid.Grid;
+import com.vaadin.flow.component.orderedlayout.HorizontalLayout;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
 import com.vaadin.flow.router.Route;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,10 +21,16 @@ public class MainView extends VerticalLayout {
 
     private final LoanApplicationService applicationService;
     private final LoanService loanService;
+
     private final ApplicationForm applicationForm = new ApplicationForm(this);
 
     private final Grid<LoanApplication> applicationGrid = new Grid<>();
     private final Grid<LoanDto> loanGrid = new Grid<>();
+
+    private final Text applicationText = new Text("LOAN APPLICATIONS");
+    private final Text loanText = new Text("LOANS");
+
+    private final Button newApplication = new Button("New application");
 
     @Autowired
     public MainView(LoanApplicationService applicationService, LoanService loanService) {
@@ -30,26 +38,44 @@ public class MainView extends VerticalLayout {
         this.applicationService = applicationService;
         this.loanService = loanService;
 
-        Text applicationText = new Text("LOAN APPLICATIONS");
-        Text loanText = new Text("LOANS");
-
         prepareApplicationGrid();
         prepareLoanGrid(loanService);
 
-        VerticalLayout applicationLayout = new VerticalLayout(applicationText, applicationGrid);
-        VerticalLayout loanLayout = new VerticalLayout(loanText, loanGrid);
+        newApplication.addClickListener(e -> {
+            applicationGrid.asSingleSelect().clear();
+            applicationForm.setApplication(new LoanApplication());
+        });
 
-        VerticalLayout mainContent = new VerticalLayout(applicationLayout, loanLayout);
-        mainContent.setSizeFull();
-        applicationLayout.setSizeFull();
-        loanLayout.setSizeFull();
+        VerticalLayout applicationToolBar = new VerticalLayout(applicationText, newApplication);
+        VerticalLayout loanToolBar = new VerticalLayout(loanText);
+
+        HorizontalLayout applicationContent = new HorizontalLayout(applicationGrid, applicationForm);
+        HorizontalLayout loanContent = new HorizontalLayout(loanGrid);
+
+        applicationContent.setSizeFull();
+        loanContent.setSizeFull();
         applicationGrid.setSizeFull();
         loanGrid.setSizeFull();
 
-        add(mainContent);
+        add(applicationToolBar, applicationContent, loanToolBar, loanContent);
+        applicationForm.setApplication(null);
+
         setSizeFull();
 
         refresh();
+
+        applicationGrid.asSingleSelect().addValueChangeListener(e -> applicationForm.setApplication(
+                applicationGrid.asSingleSelect().getValue()
+        ));
+
+    }
+
+    public LoanApplicationService getApplicationService() {
+        return applicationService;
+    }
+
+    public LoanService getLoanService() {
+        return loanService;
     }
 
     private void prepareApplicationGrid() {
@@ -57,7 +83,7 @@ public class MainView extends VerticalLayout {
         applicationGrid.addColumn(LoanApplication::getFirstName).setHeader("First name");
         applicationGrid.addColumn(LoanApplication::getLastName).setHeader("Last name");
         applicationGrid.addColumn(LoanApplication::getPesel).setHeader("PESEL");
-        applicationGrid.addColumn(LoanApplication::getCurrency).setHeader("Currency");
+        applicationGrid.addColumn(LoanApplication::getCurrencyName).setHeader("Currency");
         applicationGrid.addColumn(LoanApplication::getAmount).setHeader("Amount");
         applicationGrid.addColumn(LoanApplication::getPeriod).setHeader("Period");
         applicationGrid.addColumn(LoanApplication::getMarginRate).setHeader("Margin rate");

@@ -1,5 +1,6 @@
 package com.tenetmind.loansfront.customer.client;
 
+import com.tenetmind.loansfront.currency.domainmodel.CurrencyDto;
 import com.tenetmind.loansfront.customer.client.config.CustomerConfiguration;
 import com.tenetmind.loansfront.customer.domainmodel.CustomerDto;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -7,6 +8,7 @@ import org.springframework.http.*;
 import org.springframework.stereotype.Component;
 import org.springframework.web.client.RestTemplate;
 
+import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 
@@ -21,7 +23,10 @@ public class CustomerClient {
 
     public List<CustomerDto> getCustomerDtos() {
         try {
-            return (List<CustomerDto>) restTemplate.getForObject(config.getEndpoint(), List.class);
+            CustomerDto[] response = restTemplate.getForObject(config.getEndpoint(), CustomerDto[].class);
+            assert response != null;
+            return Arrays.asList(response.clone());
+
         } catch (Exception e) {
             e.printStackTrace();
             return null;

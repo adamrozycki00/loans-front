@@ -1,5 +1,8 @@
 package com.tenetmind.loansfront.application.domainmodel;
 
+import com.tenetmind.loansfront.currency.domainmodel.CurrencyDto;
+import com.tenetmind.loansfront.currency.domainmodel.CurrencyName;
+import com.tenetmind.loansfront.currency.domainmodel.CurrencyNameFactory;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -20,8 +23,8 @@ public class LoanApplication {
     private String firstName;
     private String lastName;
     private String pesel;
-    private String currencyId;
-    private String currency;
+    private CurrencyDto currency;
+    private CurrencyName currencyName;
     private String amount;
     private String period;
     private String marginRate;
@@ -35,16 +38,13 @@ public class LoanApplication {
         this.firstName = dto.getCustomerDto().getFirstName();
         this.lastName = dto.getCustomerDto().getLastName();
         this.pesel = dto.getCustomerDto().getPesel();
-        this.currencyId = dto.getCurrencyDto().getId().toString();
-        this.currency = dto.getCurrencyDto().getName();
+        this.currency = dto.getCurrencyDto();
+        this.currencyName =
+                new CurrencyNameFactory().makeCurrencyName(dto.getCurrencyDto().getName());
         this.amount = dto.getAmount().toString();
         this.period = dto.getPeriod().toString();
         this.marginRate = dto.getMarginRate().toString();
         this.status = dto.getStatus();
-    }
-
-    public void setStatus(String status) {
-        this.status = status.substring(0, 1).toUpperCase() + status.substring(1).toLowerCase();
     }
 
     @Override
@@ -71,8 +71,7 @@ public class LoanApplication {
                 ", firstName='" + firstName + '\'' +
                 ", lastName='" + lastName + '\'' +
                 ", pesel='" + pesel + '\'' +
-                ", currencyId=" + currencyId +
-                ", currency='" + currency + '\'' +
+                ", currency='" + currencyName.getName() + '\'' +
                 ", amount=" + amount +
                 ", period=" + period +
                 ", marginRate=" + marginRate +

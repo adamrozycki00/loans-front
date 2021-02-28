@@ -12,12 +12,10 @@ import lombok.Setter;
 public class Currency {
 
     private Long id;
-    private String name;
+    private CurrencyName name;
 
-    public Currency(String name) {
-        if (name != null) {
-            this.name = name.toUpperCase();
-        }
+    public Currency(CurrencyDto dto) {
+        this.name = new CurrencyNameFactory().makeCurrencyName(dto.getName());
     }
 
     @Override
@@ -39,7 +37,7 @@ public class Currency {
     public String toString() {
         return "Currency{" +
                 "id=" + id +
-                ", name='" + name + '\'' +
+                ", name='" + name.getName() + '\'' +
                 '}';
     }
 

@@ -1,5 +1,6 @@
 package com.tenetmind.loansfront.currencyrate.domainmodel;
 
+import com.tenetmind.loansfront.currency.domainmodel.Currency;
 import com.tenetmind.loansfront.currency.domainmodel.CurrencyMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -17,7 +18,7 @@ public class CurrencyRateMapper {
         return new CurrencyRate(
                 dto.getName(),
                 dto.getDate(),
-                currencyMapper.mapToExistingEntity(dto.getCurrencyDto()),
+                new Currency(dto.getCurrencyDto()),
                 dto.getRate());
     }
 
@@ -26,7 +27,7 @@ public class CurrencyRateMapper {
                 dto.getId(),
                 dto.getName(),
                 dto.getDate(),
-                currencyMapper.mapToExistingEntity(dto.getCurrencyDto()),
+                new Currency(dto.getCurrencyDto()),
                 dto.getRate());
     }
 

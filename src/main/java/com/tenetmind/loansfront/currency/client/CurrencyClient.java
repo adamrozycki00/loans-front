@@ -1,5 +1,6 @@
 package com.tenetmind.loansfront.currency.client;
 
+import com.tenetmind.loansfront.application.domainmodel.LoanApplicationDto;
 import com.tenetmind.loansfront.currency.client.config.CurrencyConfiguration;
 import com.tenetmind.loansfront.currency.domainmodel.CurrencyDto;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -7,6 +8,7 @@ import org.springframework.http.*;
 import org.springframework.stereotype.Component;
 import org.springframework.web.client.RestTemplate;
 
+import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 
@@ -26,7 +28,10 @@ public class CurrencyClient {
 
     public List<CurrencyDto> getCurrencyDtos() {
         try {
-            return (List<CurrencyDto>) restTemplate.getForObject(config.getEndpoint(), List.class);
+            CurrencyDto[] response = restTemplate.getForObject(config.getEndpoint(), CurrencyDto[].class);
+            assert response != null;
+            return Arrays.asList(response.clone());
+
         } catch (Exception e) {
             e.printStackTrace();
             return null;
@@ -60,6 +65,28 @@ public class CurrencyClient {
         }
     }
 
+    public boolean updateCurrency(CurrencyDto currency) {
+        HttpHeaders headers = new HttpHeaders();
+        headers.setContentType(APPLICATION_JSON);
+        headers.setAccept(singletonList(APPLICATION_JSON));
+
+        HttpEntity<CurrencyDto> request = new HttpEntity<>(headers);
+
+        ResponseEntity<CurrencyDto> response = restTemplate.exchange(
+                config.getEndpoint(),
+                PUT,
+                request,
+                CurrencyDto.class,
+                1);
+
+        if (response.getStatusCode() == HttpStatus.OK) {
+            return true;
+        } else {
+            System.out.println(response.getStatusCode());
+            return false;
+        }
+    }
+
     public boolean deleteCurrency(Long id) {
         HttpHeaders headers = new HttpHeaders();
         headers.setContentType(APPLICATION_JSON);
@@ -82,25 +109,4 @@ public class CurrencyClient {
         }
     }
 
-    public boolean updateCurrency(CurrencyDto currency) {
-        HttpHeaders headers = new HttpHeaders();
-        headers.setContentType(APPLICATION_JSON);
-        headers.setAccept(singletonList(APPLICATION_JSON));
-
-        HttpEntity<CurrencyDto> request = new HttpEntity<>(headers);
-
-        ResponseEntity<CurrencyDto> response = restTemplate.exchange(
-                config.getEndpoint(),
-                PUT,
-                request,
-                CurrencyDto.class,
-                1);
-
-        if (response.getStatusCode() == HttpStatus.OK) {
-            return true;
-        } else {
-            System.out.println(response.getStatusCode());
-            return false;
-        }
-    }
 }
