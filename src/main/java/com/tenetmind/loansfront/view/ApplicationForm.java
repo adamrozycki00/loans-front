@@ -2,6 +2,7 @@ package com.tenetmind.loansfront.view;
 
 import com.tenetmind.loansfront.application.domainmodel.LoanApplication;
 import com.tenetmind.loansfront.currency.domainmodel.CurrencyName;
+import com.vaadin.flow.component.Text;
 import com.vaadin.flow.component.button.Button;
 import com.vaadin.flow.component.button.ButtonVariant;
 import com.vaadin.flow.component.combobox.ComboBox;
@@ -13,6 +14,7 @@ import com.vaadin.flow.data.binder.Binder;
 public class ApplicationForm extends FormLayout {
 
     private final MainView mainView;
+    private final Text id = new Text("No.");
     private final TextField dateString = new TextField("Date");
     private final TextField firstName = new TextField("First name");
     private final TextField lastName = new TextField("Last name");
@@ -33,7 +35,7 @@ public class ApplicationForm extends FormLayout {
         currencyName.setItems(CurrencyName.values());
         HorizontalLayout buttons = new HorizontalLayout(save, delete);
         save.addThemeVariants(ButtonVariant.LUMO_PRIMARY);
-        add(firstName, lastName, pesel, currencyName, amount, period, marginRate, buttons);
+        add(id, firstName, lastName, pesel, currencyName, amount, period, marginRate, buttons);
         binder.bindInstanceFields(this);
 
         save.addClickListener(e -> save());

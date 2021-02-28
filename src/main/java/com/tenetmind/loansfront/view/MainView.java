@@ -79,6 +79,7 @@ public class MainView extends VerticalLayout {
     }
 
     private void prepareApplicationGrid() {
+        applicationGrid.addColumn(LoanApplication::getId).setHeader("No.");
         applicationGrid.addColumn(LoanApplication::getDateString).setHeader("Date");
         applicationGrid.addColumn(LoanApplication::getFirstName).setHeader("First name");
         applicationGrid.addColumn(LoanApplication::getLastName).setHeader("Last name");

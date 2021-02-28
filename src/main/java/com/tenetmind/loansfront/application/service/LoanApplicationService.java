@@ -5,6 +5,7 @@ import com.tenetmind.loansfront.application.domainmodel.LoanApplication;
 import com.tenetmind.loansfront.application.domainmodel.LoanApplicationDto;
 import com.tenetmind.loansfront.application.domainmodel.LoanApplicationMapper;
 import com.tenetmind.loansfront.currency.domainmodel.CurrencyDto;
+import com.vaadin.flow.component.notification.Notification;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -69,6 +70,7 @@ public class LoanApplicationService {
                 return client.deleteApplication(Long.parseLong(application.getId()));
             }
         }
+        Notification.show("You can only delete new applications.");
         return false;
     }
 
