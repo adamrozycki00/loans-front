@@ -2,7 +2,7 @@ package com.tenetmind.loansfront.view;
 
 import com.tenetmind.loansfront.application.domainmodel.LoanApplication;
 import com.tenetmind.loansfront.application.service.LoanApplicationService;
-import com.tenetmind.loansfront.loan.domainmodel.LoanDto;
+import com.tenetmind.loansfront.loan.domainmodel.Loan;
 import com.tenetmind.loansfront.loan.service.LoanService;
 import com.vaadin.flow.component.Text;
 import com.vaadin.flow.component.button.Button;
@@ -23,9 +23,10 @@ public class MainView extends VerticalLayout {
     private final LoanService loanService;
 
     private final ApplicationForm applicationForm = new ApplicationForm(this);
+    private final LoanForm loanForm = new LoanForm(this);
 
     private final Grid<LoanApplication> applicationGrid = new Grid<>();
-    private final Grid<LoanDto> loanGrid = new Grid<>();
+    private final Grid<Loan> loanGrid = new Grid<>();
 
     private final Text applicationText = new Text("LOAN APPLICATIONS");
     private final Text loanText = new Text("LOANS");
@@ -39,7 +40,7 @@ public class MainView extends VerticalLayout {
         this.loanService = loanService;
 
         prepareApplicationGrid();
-        prepareLoanGrid(loanService);
+        prepareLoanGrid();
 
         newApplication.addClickListener(e -> {
             applicationGrid.asSingleSelect().clear();
@@ -50,7 +51,7 @@ public class MainView extends VerticalLayout {
         VerticalLayout loanToolBar = new VerticalLayout(loanText);
 
         HorizontalLayout applicationContent = new HorizontalLayout(applicationGrid, applicationForm);
-        HorizontalLayout loanContent = new HorizontalLayout(loanGrid);
+        HorizontalLayout loanContent = new HorizontalLayout(loanGrid, loanForm);
 
         applicationContent.setSizeFull();
         loanContent.setSizeFull();
@@ -59,6 +60,7 @@ public class MainView extends VerticalLayout {
 
         add(applicationToolBar, applicationContent, loanToolBar, loanContent);
         applicationForm.setApplication(null);
+        loanForm.setLoan(null);
 
         setSizeFull();
 
@@ -67,7 +69,9 @@ public class MainView extends VerticalLayout {
         applicationGrid.asSingleSelect().addValueChangeListener(e -> applicationForm.setApplication(
                 applicationGrid.asSingleSelect().getValue()
         ));
-
+        loanGrid.asSingleSelect().addValueChangeListener(e -> loanForm.setLoan(
+                loanGrid.asSingleSelect().getValue()
+        ));
     }
 
     public LoanApplicationService getApplicationService() {
@@ -79,7 +83,6 @@ public class MainView extends VerticalLayout {
     }
 
     private void prepareApplicationGrid() {
-        applicationGrid.addColumn(LoanApplication::getId).setHeader("No.");
         applicationGrid.addColumn(LoanApplication::getDateString).setHeader("Date");
         applicationGrid.addColumn(LoanApplication::getFirstName).setHeader("First name");
         applicationGrid.addColumn(LoanApplication::getLastName).setHeader("Last name");
@@ -91,15 +94,15 @@ public class MainView extends VerticalLayout {
         applicationGrid.addColumn(LoanApplication::getStatus).setHeader("Status");
     }
 
-    private void prepareLoanGrid(LoanService loanService) {
-        loanGrid.addColumn(loan -> loan.getDate().toLocalDate()).setHeader("Date");
-        loanGrid.addColumn(loan -> loan.getCustomerDto().getFirstName()).setHeader("First name");
-        loanGrid.addColumn(loan -> loan.getCustomerDto().getLastName()).setHeader("Last name");
-        loanGrid.addColumn(loan -> loan.getCurrencyDto().getName()).setHeader("Currency");
-        loanGrid.addColumn(LoanDto::getAmount).setHeader("Amount");
-        loanGrid.addColumn(LoanDto::getBalance).setHeader("Balance");
-        loanGrid.addColumn(loanService::getAmountOfNextInstallment).setHeader("Next installment");
-        loanGrid.addColumn(LoanDto::getStatus).setHeader("Status");
+    private void prepareLoanGrid() {
+        loanGrid.addColumn(Loan::getDateString).setHeader("Date");
+        loanGrid.addColumn(Loan::getFirstNameString).setHeader("First name");
+        loanGrid.addColumn(Loan::getLastNameString).setHeader("Last name");
+        loanGrid.addColumn(Loan::getCurrencyString).setHeader("Currency");
+        loanGrid.addColumn(Loan::getAmountString).setHeader("Amount");
+        loanGrid.addColumn(Loan::getBalanceString).setHeader("Balance");
+        loanGrid.addColumn(Loan::getNextInstallmentString).setHeader("Next installment");
+        loanGrid.addColumn(Loan::getStatus).setHeader("Status");
     }
 
     public void refresh() {

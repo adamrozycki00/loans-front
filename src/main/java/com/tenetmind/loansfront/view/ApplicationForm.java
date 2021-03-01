@@ -10,8 +10,6 @@ import com.vaadin.flow.component.orderedlayout.HorizontalLayout;
 import com.vaadin.flow.component.textfield.TextField;
 import com.vaadin.flow.data.binder.Binder;
 
-import java.time.LocalDateTime;
-
 public class ApplicationForm extends FormLayout {
 
     private final MainView mainView;

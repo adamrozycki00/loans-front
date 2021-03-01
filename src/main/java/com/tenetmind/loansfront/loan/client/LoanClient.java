@@ -91,6 +91,9 @@ public class LoanClient {
 
     public BigDecimal getAmountOfNextInstallment(LoanDto loanDto) {
         final int numberOfNextInstallment = loanDto.getNumberOfInstallmentsPaid() + 1;
+        if (numberOfNextInstallment > loanDto.getPeriod()) {
+            return BigDecimal.ZERO;
+        }
         InstallmentDto nextInstallment = loanDto.getScheduleDto().stream()
                 .filter(installment -> installment.getNumber() == numberOfNextInstallment)
                 .collect(Collectors.toList()).get(0);

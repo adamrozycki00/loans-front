@@ -1,84 +1,59 @@
 package com.tenetmind.loansfront.loan.domainmodel;
 
-import com.tenetmind.loansfront.application.domainmodel.LoanApplicationMapper;
-import com.tenetmind.loansfront.currency.domainmodel.CurrencyMapper;
-import com.tenetmind.loansfront.customer.domainmodel.CustomerMapper;
-import com.tenetmind.loansfront.installment.domainmodel.InstallmentMapper;
-import com.tenetmind.loansfront.operation.domainmodel.OperationMapper;
+import com.tenetmind.loansfront.loan.service.LoanService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
-
-import java.util.List;
-import java.util.stream.Collectors;
 
 @Component
 public class LoanMapper {
 
     @Autowired
-    private LoanApplicationMapper applicationMapper;
+    private LoanService service;
 
-    @Autowired
-    private CustomerMapper customerMapper;
-
-    @Autowired
-    private CurrencyMapper currencyMapper;
-
-    @Autowired
-    private InstallmentMapper installmentMapper;
-
-    @Autowired
-    private OperationMapper operationMapper;
-
-//    public Loan mapToNewEntity(final LoanDto dto) {
-//        return new Loan(
-//                dto.getDate(),
-//                applicationMapper.mapFromDto(dto.getApplicationDto()),
-//                dto.getBaseRate());
-//    }
-
-//    public Loan mapToExistingEntity(final LoanDto dto) {
-//        return new Loan(
-//                dto.getId(),
-//                dto.getDate(),
-//                applicationMapper.mapToExistingEntity(dto.getApplicationDto()),
-//                customerMapper.mapToExistingEntity(dto.getCustomerDto()),
-//                currencyMapper.mapToExistingEntity(dto.getCurrencyDto()),
-//                dto.getAmount(),
-//                dto.getPeriod(),
-//                dto.getBaseRate(),
-//                dto.getMarginRate(),
-//                dto.getBalance(),
-//                dto.getAmountToPay(),
-//                dto.getNumberOfInstallmentsPaid(),
-//                dto.getStatus(),
-//                installmentMapper.mapToEntityList(dto.getScheduleDto()),
-//                operationMapper.mapToEntityList(dto.getOperationDtos())
-//        );
-//    }
-
-    public LoanDto mapToDto(final Loan entity) {
+    public LoanDto mapToDto(Loan loan) {
         return new LoanDto(
-                entity.getId(),
-                entity.getDate(),
-                applicationMapper.mapToDto(entity.getApplication()),
-                customerMapper.mapToDto(entity.getCustomer()),
-                currencyMapper.mapToDto(entity.getCurrency()),
-                entity.getAmount(),
-                entity.getPeriod(),
-                entity.getBaseRate(),
-                entity.getMarginRate(),
-                entity.getBalance(),
-                entity.getAmountToPay(),
-                entity.getNumberOfInstallmentsPaid(),
-                entity.getStatus(),
-                installmentMapper.mapToDtoList(entity.getSchedule()),
-                operationMapper.mapToDtoList(entity.getOperations()));
+                loan.getId(),
+                loan.getDate(),
+                loan.getApplicationDto(),
+                loan.getCustomerDto(),
+                loan.getCurrencyDto(),
+                loan.getAmount(),
+                loan.getPeriod(),
+                loan.getBaseRate(),
+                loan.getMarginRate(),
+                loan.getBalance(),
+                loan.getAmountToPay(),
+                loan.getNumberOfInstallmentsPaid(),
+                loan.getStatus(),
+                loan.getScheduleDto(),
+                loan.getOperationDtos());
     }
 
-    public List<LoanDto> mapToDtoList(List<Loan> loans) {
-        return loans.stream()
-                .map(this::mapToDto)
-                .collect(Collectors.toList());
+    public Loan mapFromDto(LoanDto loanDto) {
+        return new Loan(
+                loanDto.getId(),
+                loanDto.getDate(),
+                loanDto.getDate().toLocalDate().toString(),
+                loanDto.getApplicationDto(),
+                loanDto.getCustomerDto(),
+                loanDto.getCustomerDto().getFirstName(),
+                loanDto.getCustomerDto().getLastName(),
+                loanDto.getCurrencyDto(),
+                loanDto.getCurrencyDto().getName(),
+                loanDto.getAmount(),
+                loanDto.getAmount().toString(),
+                loanDto.getPeriod(),
+                loanDto.getBaseRate(),
+                loanDto.getMarginRate(),
+                loanDto.getBalance(),
+                loanDto.getBalance().toString(),
+                loanDto.getStatus().equals("New") ? "" : service.getAmountOfNextInstallment(loanDto).toString(),
+                loanDto.getAmountToPay(),
+                loanDto.getNumberOfInstallmentsPaid(),
+                loanDto.getNumberOfInstallmentsPaid().toString(),
+                loanDto.getStatus(),
+                loanDto.getScheduleDto(),
+                loanDto.getOperationDtos());
     }
 
 }

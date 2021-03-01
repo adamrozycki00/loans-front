@@ -24,16 +24,6 @@ public class Installment {
     private BigDecimal principal;
     private BigDecimal interest;
 
-    public Installment(LocalDate date, Loan loan, Integer number,
-                       BigDecimal principal, BigDecimal interest) {
-        this.date = date;
-        this.loan = loan;
-        this.number = number;
-        this.currency = loan.getCurrency();
-        this.principal = principal;
-        this.interest = interest;
-    }
-
     @Override
     public String toString() {
         return " {" +
