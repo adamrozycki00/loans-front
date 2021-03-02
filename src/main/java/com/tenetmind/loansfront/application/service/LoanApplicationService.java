@@ -4,6 +4,7 @@ import com.tenetmind.loansfront.application.client.LoanApplicationClient;
 import com.tenetmind.loansfront.application.domainmodel.LoanApplication;
 import com.tenetmind.loansfront.application.domainmodel.LoanApplicationDto;
 import com.tenetmind.loansfront.application.domainmodel.LoanApplicationMapper;
+import com.tenetmind.loansfront.currencyrate.client.CurrencyRateClient;
 import com.vaadin.flow.component.notification.Notification;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -24,6 +25,9 @@ public class LoanApplicationService {
     @Autowired
     private LoanApplicationMapper mapper;
 
+    @Autowired
+    private CurrencyRateClient currencyRateClient;
+
     public LoanApplicationDto getDto(Long id) {
         return client.getApplicationDto(id);
     }
@@ -38,14 +42,17 @@ public class LoanApplicationService {
                 .collect(Collectors.toList());
     }
 
-    public boolean save(LoanApplicationDto applicationDto) {
-        return client.createApplication(applicationDto);
-    }
-
     public boolean save(LoanApplication application) {
         if (application.getStatus() == null) {
             application = initialize(application);
         }
+
+        boolean currencyRateIsUpToDate = checkForUpToDateRate(application.getCurrencyName().getName());
+        if (!currencyRateIsUpToDate) {
+            Notification.show("No up-to-date currency rate for the application");
+            return false;
+        }
+
         if (application.getStatus().equals(NEW)) {
             if (application.getId() == null) {
                 return client.createApplication(mapper.mapToDto(application));
@@ -76,6 +83,11 @@ public class LoanApplicationService {
     }
 
     public boolean accept(LoanApplication application) {
+        boolean currencyRateIsUpToDate = checkForUpToDateRate(application.getCurrencyName().getName());
+        if (!currencyRateIsUpToDate) {
+            Notification.show("No up-to-date currency rate for the application");
+            return false;
+        }
         if (NEW.equals(application.getStatus())) {
             if (application.getId() != null) {
                 application.setStatus(ACCEPTED);
@@ -84,6 +96,10 @@ public class LoanApplicationService {
         }
         Notification.show("You can only accept saved new applications");
         return false;
+    }
+
+    private boolean checkForUpToDateRate(String currencyName) {
+        return currencyRateClient.checkForUpToDateRate(currencyName);
     }
 
     public LoanApplication initialize(LoanApplication application) {

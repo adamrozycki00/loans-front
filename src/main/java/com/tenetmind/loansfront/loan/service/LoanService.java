@@ -1,5 +1,6 @@
 package com.tenetmind.loansfront.loan.service;
 
+import com.tenetmind.loansfront.currencyrate.client.CurrencyRateClient;
 import com.tenetmind.loansfront.loan.client.LoanClient;
 import com.tenetmind.loansfront.loan.domainmodel.Loan;
 import com.tenetmind.loansfront.loan.domainmodel.LoanDto;
@@ -28,15 +29,10 @@ public class LoanService {
     private PaymentClient paymentClient;
 
     @Autowired
+    private CurrencyRateClient currencyRateClient;
+
+    @Autowired
     private LoanMapper mapper;
-
-    public LoanDto get(Long id) {
-        return loanClient.getLoanDto(id);
-    }
-
-    public List<LoanDto> getDtos() {
-        return loanClient.getLoanDtos();
-    }
 
     public List<Loan> getAll() {
         return loanClient.getLoanDtos().stream()
@@ -44,36 +40,42 @@ public class LoanService {
                 .collect(Collectors.toList());
     }
 
-    public boolean save(LoanDto application) {
-        return loanClient.createLoan(application);
-    }
-
-    public boolean update(LoanDto application) {
-        return loanClient.updateLoan(application);
-    }
-
     public BigDecimal getAmountOfNextInstallment(LoanDto loanDto) {
         return loanClient.getAmountOfNextInstallment(loanDto);
     }
 
     public void makeLoan(Loan loan) {
-        if (NEW.equals(loan.getStatus())) {
-            PaymentDto paymentDto = new PaymentDto(LocalDate.now(), loan.getId());
-            paymentClient.makeLoan(paymentDto);
-            loan.setNextInstallmentString(getAmountOfNextInstallment(mapper.mapToDto(loan)).toString());
+        boolean currencyRateIsUpToDate = checkForUpToDateRate(loan.getCurrencyString());
+        if (!currencyRateIsUpToDate) {
+            Notification.show("No up-to-date currency rate for the loan");
         } else {
-            Notification.show("The loan has already been made");
+            if (NEW.equals(loan.getStatus())) {
+                PaymentDto paymentDto = new PaymentDto(LocalDate.now(), loan.getId());
+                paymentClient.makeLoan(paymentDto);
+                loan.setNextInstallmentString(getAmountOfNextInstallment(mapper.mapToDto(loan)).toString());
+            } else {
+                Notification.show("The loan has already been made");
+            }
         }
     }
 
     public void payInstallment(Loan loan) {
-        if (ACTIVE.equals(loan.getStatus()) && loan.getBalance().compareTo(BigDecimal.ZERO) > 0) {
-            PaymentDto paymentDto = new PaymentDto(LocalDate.now(), loan.getId(),
-                    loan.getCurrencyString(), new BigDecimal(loan.getNextInstallmentString()));
-            paymentClient.payInstallment(paymentDto);
+        boolean currencyRateIsUpToDate = checkForUpToDateRate(loan.getCurrencyString());
+        if (!currencyRateIsUpToDate) {
+            Notification.show("No up-to-date currency rate for the loan");
         } else {
-            Notification.show("You can only pay installment for active loans");
+            if (ACTIVE.equals(loan.getStatus()) && loan.getBalance().compareTo(BigDecimal.ZERO) > 0) {
+                PaymentDto paymentDto = new PaymentDto(LocalDate.now(), loan.getId(),
+                        loan.getCurrencyString(), new BigDecimal(loan.getNextInstallmentString()));
+                paymentClient.payInstallment(paymentDto);
+            } else {
+                Notification.show("You can only pay installment for active loans");
+            }
         }
+    }
+
+    private boolean checkForUpToDateRate(String currencyName) {
+        return currencyRateClient.checkForUpToDateRate(currencyName);
     }
 
 }
