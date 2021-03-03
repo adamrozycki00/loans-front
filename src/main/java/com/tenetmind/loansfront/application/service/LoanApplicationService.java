@@ -47,12 +47,6 @@ public class LoanApplicationService {
             application = initialize(application);
         }
 
-        boolean currencyRateIsUpToDate = checkForUpToDateRate(application.getCurrencyName().getName());
-        if (!currencyRateIsUpToDate) {
-            Notification.show("No up-to-date currency rate for the application");
-            return false;
-        }
-
         if (application.getStatus().equals(NEW)) {
             if (application.getId() == null) {
                 return client.createApplication(mapper.mapToDto(application));
