@@ -2,7 +2,6 @@ package com.tenetmind.loansfront.currencyrate.client;
 
 import com.tenetmind.loansfront.application.domainmodel.LoanApplicationDto;
 import com.tenetmind.loansfront.currencyrate.client.config.CurrencyRateConfiguration;
-import com.tenetmind.loansfront.currencyrate.domainmodel.CurrencyRateDto;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.*;
 import org.springframework.stereotype.Component;
@@ -20,7 +19,7 @@ public class CurrencyRateClient {
     public boolean checkForUpToDateRate(String currencyName) {
         HttpHeaders headers = new HttpHeaders();
 
-        HttpEntity<LoanApplicationDto> entity = new HttpEntity<>(headers);
+        HttpEntity<Boolean> entity = new HttpEntity<>(headers);
 
         ResponseEntity<Boolean> response =
                 restTemplate.postForEntity(config.getEndpoint() + "uptodate/" + currencyName,

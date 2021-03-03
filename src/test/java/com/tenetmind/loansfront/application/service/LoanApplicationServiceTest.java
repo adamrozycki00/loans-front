@@ -121,6 +121,31 @@ class LoanApplicationServiceTest {
     }
 
     @Test
+    public void shouldNotSaveApplicationWithIdNotNull() {
+        //given
+        CustomerDto customerDto = new CustomerDto(1L, "John", "Smith", "12345");
+        CurrencyDto currencyDto = new CurrencyDto(1L, "EUR");
+
+        long testId = 1L;
+
+        LoanApplicationDto applicationDto = new LoanApplicationDto(testId, LocalDateTime.now(), customerDto,
+                currencyDto, new BigDecimal("1000"), 12, new BigDecimal(".05"), "New");
+
+        List<LoanApplicationDto> loanApplicationDtoList = new ArrayList<>();
+        loanApplicationDtoList.add(applicationDto);
+
+        LoanApplication application = new LoanApplication(applicationDto);
+
+        when(client.createApplication(any())).thenReturn(false);
+
+        //when
+        boolean result = service.save(application);
+
+        //then
+        assertFalse(result);
+    }
+
+    @Test
     public void shouldAcceptApplicationWithStatusNew() {
         //given
         CustomerDto customerDto = new CustomerDto(1L, "John", "Smith", "12345");
@@ -139,6 +164,29 @@ class LoanApplicationServiceTest {
 
         //when
         boolean result = service.accept(application);
+
+        //then
+        assertTrue(result);
+    }
+
+    @Test
+    public void shouldDeleteApplicationWithStatusNewAndIdNotNull() {
+        //given
+        CustomerDto customerDto = new CustomerDto(1L, "John", "Smith", "12345");
+        CurrencyDto currencyDto = new CurrencyDto(1L, "EUR");
+
+        LoanApplicationDto applicationDto = new LoanApplicationDto(1L, LocalDateTime.now(), customerDto,
+                currencyDto, new BigDecimal("1000"), 12, new BigDecimal(".05"), "New");
+
+        List<LoanApplicationDto> loanApplicationDtoList = new ArrayList<>();
+        loanApplicationDtoList.add(applicationDto);
+
+        LoanApplication application = new LoanApplication(applicationDto);
+
+        when(client.deleteApplication(any())).thenReturn(true);
+
+        //when
+        boolean result = service.delete(application);
 
         //then
         assertTrue(result);
