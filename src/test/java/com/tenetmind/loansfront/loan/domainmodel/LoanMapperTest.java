@@ -30,9 +30,6 @@ public class LoanMapperTest {
     @Autowired
     private LoanMapper mapper;
 
-    @MockBean
-    private CurrencyService currencyService;
-
     @Test
     public void shouldCreateDtoWithSamePropertiesAsThoseInInputLoan() {
         //given
@@ -87,8 +84,6 @@ public class LoanMapperTest {
 
         LoanApplicationDto applicationDto = new LoanApplicationDto(1L, LocalDateTime.now(), customerDto,
                 currencyDto, new BigDecimal("1000"), 12, new BigDecimal(".05"), "New");
-
-        LoanApplication application = new LoanApplication(applicationDto);
 
         LoanDto loanDto = new LoanDto(
                 1L,

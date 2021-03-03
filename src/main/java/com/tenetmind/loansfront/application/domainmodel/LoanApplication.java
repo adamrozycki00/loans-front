@@ -46,19 +46,4 @@ public class LoanApplication {
         this.status = dto.getStatus();
     }
 
-//    @Override
-//    public boolean equals(Object o) {
-//        if (this == o) return true;
-//        if (o == null || getClass() != o.getClass()) return false;
-//
-//        LoanApplication that = (LoanApplication) o;
-//
-//        return id.equals(that.id);
-//    }
-//
-//    @Override
-//    public int hashCode() {
-//        return id.hashCode();
-//    }
-
 }
