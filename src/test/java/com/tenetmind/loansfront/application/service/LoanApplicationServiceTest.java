@@ -192,4 +192,25 @@ class LoanApplicationServiceTest {
         assertTrue(result);
     }
 
+    @Test
+    public void shouldInitializeApplication() {
+        //given
+        CustomerDto customerDto = new CustomerDto(1L, "John", "Smith", "12345");
+        CurrencyDto currencyDto = new CurrencyDto(1L, "EUR");
+
+        LoanApplicationDto applicationDto = new LoanApplicationDto(1L, LocalDateTime.now(), customerDto,
+                currencyDto, new BigDecimal("1000"), 12, new BigDecimal(".05"), null);
+
+        LoanApplication application = new LoanApplication(applicationDto);
+
+        //when
+        String statusBeforeInitialization = application.getStatus();
+        service.initialize(application);
+        String statusAfterInitialization = application.getStatus();
+
+        //then
+        assertNull(statusBeforeInitialization);
+        assertNotNull(statusAfterInitialization);
+    }
+
 }

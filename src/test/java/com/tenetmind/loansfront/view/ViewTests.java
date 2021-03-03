@@ -1,10 +1,7 @@
-package com.tenetmind.loansfront;
+package com.tenetmind.loansfront.view;
 
 import com.tenetmind.loansfront.application.client.LoanApplicationClient;
 import com.tenetmind.loansfront.loan.client.LoanClient;
-import com.tenetmind.loansfront.view.ApplicationForm;
-import com.tenetmind.loansfront.view.LoanForm;
-import com.tenetmind.loansfront.view.MainView;
 import org.junit.jupiter.api.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,12 +12,12 @@ import org.springframework.test.context.junit4.SpringRunner;
 
 import java.util.ArrayList;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.mockito.Mockito.when;
 
 @SpringBootTest
 @RunWith(SpringRunner.class)
-class LoansFrontApplicationTests {
+class ViewTests {
 
     @Autowired
     private ApplicationContext context;
