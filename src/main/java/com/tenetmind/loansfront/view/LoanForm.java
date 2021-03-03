@@ -43,14 +43,14 @@ public class LoanForm extends FormLayout {
         }
     }
 
-    private void makeLoan() {
+    public void makeLoan() {
         Loan loan = binder.getBean();
         mainView.getLoanService().makeLoan(loan);
         mainView.refresh();
         setLoan(null);
     }
 
-    private void payInstallment() {
+    public void payInstallment() {
         Loan loan = binder.getBean();
         mainView.getLoanService().payInstallment(loan);
         mainView.refresh();

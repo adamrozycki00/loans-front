@@ -2,6 +2,7 @@ package com.tenetmind.loansfront.view;
 
 import com.tenetmind.loansfront.application.client.LoanApplicationClient;
 import com.tenetmind.loansfront.loan.client.LoanClient;
+import com.tenetmind.loansfront.loan.service.LoanService;
 import org.junit.jupiter.api.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,7 +14,7 @@ import org.springframework.test.context.junit4.SpringRunner;
 import java.util.ArrayList;
 
 import static org.junit.jupiter.api.Assertions.assertNotNull;
-import static org.mockito.Mockito.when;
+import static org.mockito.Mockito.*;
 
 @SpringBootTest
 @RunWith(SpringRunner.class)
@@ -27,6 +28,9 @@ class ViewTests {
 
     @MockBean
     private LoanClient loanClient;
+
+    @MockBean
+    private LoanService loanService;
 
     @Test
     void shouldHaveCreatedMainView() {
@@ -65,6 +69,36 @@ class ViewTests {
 
         //then
         assertNotNull(loanForm);
+    }
+
+    @Test
+    void shouldCallServiceMethodPayInstallment() {
+        //given
+        MainView mainView = (MainView) context.getBean("mainView");
+        when(loanApplicationClient.getApplicationDtos()).thenReturn(new ArrayList<>());
+        when(loanClient.getLoanDtos()).thenReturn(new ArrayList<>());
+        LoanForm loanForm = mainView.getLoanForm();
+
+        //when
+        loanForm.payInstallment();
+
+        //then
+        verify(loanService, times(1)).payInstallment(any());
+    }
+
+    @Test
+    void shouldCallServiceMethodMakeLoan() {
+        //given
+        MainView mainView = (MainView) context.getBean("mainView");
+        when(loanApplicationClient.getApplicationDtos()).thenReturn(new ArrayList<>());
+        when(loanClient.getLoanDtos()).thenReturn(new ArrayList<>());
+        LoanForm loanForm = mainView.getLoanForm();
+
+        //when
+        loanForm.makeLoan();
+
+        //then
+        verify(loanService, times(1)).makeLoan(any());
     }
 
 }
