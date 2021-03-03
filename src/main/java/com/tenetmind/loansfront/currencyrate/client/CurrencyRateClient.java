@@ -17,15 +17,6 @@ public class CurrencyRateClient {
     @Autowired
     private RestTemplate restTemplate;
 
-    public CurrencyRateDto getCurrencyRateDto(Long id) {
-        try {
-            return restTemplate.getForObject(config.getEndpoint() + id, CurrencyRateDto.class);
-        } catch (Exception e) {
-            e.printStackTrace();
-            return null;
-        }
-    }
-
     public boolean checkForUpToDateRate(String currencyName) {
         HttpHeaders headers = new HttpHeaders();
 
