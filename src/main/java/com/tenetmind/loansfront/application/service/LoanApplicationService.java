@@ -93,6 +93,9 @@ public class LoanApplicationService {
     }
 
     private boolean checkForUpToDateRate(String currencyName) {
+        if ("PLN".equals(currencyName)) {
+            return true;
+        }
         return currencyRateClient.checkForUpToDateRate(currencyName);
     }
 
