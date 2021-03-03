@@ -18,6 +18,7 @@ ext {
 }
 
 dependencies {
+    implementation 'junit:junit:4.12'
     annotationProcessor('org.projectlombok:lombok')
     compileOnly('org.projectlombok:lombok')
 
