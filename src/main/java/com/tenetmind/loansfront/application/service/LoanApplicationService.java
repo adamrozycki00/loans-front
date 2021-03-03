@@ -32,10 +32,6 @@ public class LoanApplicationService {
         return client.getApplicationDto(id);
     }
 
-    public List<LoanApplicationDto> getDtos() {
-        return client.getApplicationDtos();
-    }
-
     public List<LoanApplication> getAll() {
         return client.getApplicationDtos().stream()
                 .map(LoanApplication::new)

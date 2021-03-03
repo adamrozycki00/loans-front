@@ -31,7 +31,7 @@ public class LoanApplication {
     private String status;
 
     public LoanApplication(LoanApplicationDto dto) {
-        this.id = dto.getId().toString();
+        this.id = dto.getId() == null ? null : dto.getId().toString();
         this.date = dto.getDate();
         this.dateString = dto.getDate().toLocalDate().toString();
         this.customerId = dto.getCustomerDto().getId().toString();
@@ -46,19 +46,19 @@ public class LoanApplication {
         this.status = dto.getStatus();
     }
 
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-
-        LoanApplication that = (LoanApplication) o;
-
-        return id.equals(that.id);
-    }
-
-    @Override
-    public int hashCode() {
-        return id.hashCode();
-    }
+//    @Override
+//    public boolean equals(Object o) {
+//        if (this == o) return true;
+//        if (o == null || getClass() != o.getClass()) return false;
+//
+//        LoanApplication that = (LoanApplication) o;
+//
+//        return id.equals(that.id);
+//    }
+//
+//    @Override
+//    public int hashCode() {
+//        return id.hashCode();
+//    }
 
 }

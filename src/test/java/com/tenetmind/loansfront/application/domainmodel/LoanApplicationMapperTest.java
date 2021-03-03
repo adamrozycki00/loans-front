@@ -3,7 +3,6 @@ package com.tenetmind.loansfront.application.domainmodel;
 import com.tenetmind.loansfront.currency.domainmodel.CurrencyDto;
 import com.tenetmind.loansfront.currency.service.CurrencyService;
 import com.tenetmind.loansfront.customer.domainmodel.CustomerDto;
-import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
