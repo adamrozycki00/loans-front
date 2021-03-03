@@ -1,6 +1,5 @@
 package com.tenetmind.loansfront.currencyrate.client;
 
-import com.tenetmind.loansfront.application.domainmodel.LoanApplicationDto;
 import com.tenetmind.loansfront.currencyrate.client.config.CurrencyRateConfiguration;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.*;
