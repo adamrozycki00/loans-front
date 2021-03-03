@@ -15,7 +15,7 @@ public class Currency {
     private CurrencyName name;
 
     public Currency(CurrencyDto dto) {
-        this.name = new CurrencyNameFactory().makeCurrencyName(dto.getName());
+        this.name = CurrencyNameFactory.getInstance().makeCurrencyName(dto.getName());
     }
 
     @Override

@@ -8,9 +8,17 @@ import java.util.stream.Collectors;
 
 public class CurrencyNameFactory {
 
+    private static CurrencyNameFactory INSTANCE;
+
     private Set<CurrencyName> names = new HashSet<>();
 
-    public CurrencyNameFactory() {
+    public static CurrencyNameFactory getInstance() {
+        if (INSTANCE == null)
+            INSTANCE = new CurrencyNameFactory();
+        return INSTANCE;
+    }
+
+    private CurrencyNameFactory() {
         this.names.addAll(Arrays.asList(CurrencyName.values()));
     }
 

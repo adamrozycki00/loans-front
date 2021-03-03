@@ -39,8 +39,7 @@ public class LoanApplication {
         this.lastName = dto.getCustomerDto().getLastName();
         this.pesel = dto.getCustomerDto().getPesel();
         this.currency = dto.getCurrencyDto();
-        this.currencyName =
-                new CurrencyNameFactory().makeCurrencyName(dto.getCurrencyDto().getName());
+        this.currencyName = CurrencyNameFactory.getInstance().makeCurrencyName(dto.getCurrencyDto().getName());
         this.amount = dto.getAmount().toString();
         this.period = dto.getPeriod().toString();
         this.marginRate = dto.getMarginRate().toString();
