@@ -14,12 +14,4 @@ public class CurrencyDto {
     private Long id;
     private String name;
 
-    @Override
-    public String toString() {
-        return "CurrencyDto{" +
-                "id=" + id +
-                ", name='" + name + '\'' +
-                '}';
-    }
-
 }

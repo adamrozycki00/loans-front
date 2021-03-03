@@ -23,17 +23,4 @@ public class OperationDto {
     private BigDecimal amount;
     private BigDecimal plnAmount;
 
-    @Override
-    public String toString() {
-        return "OperationDto{" +
-                "id=" + id +
-                ", date=" + date +
-                ", loanId=" + loanId +
-                ", type='" + type + '\'' +
-                ", currencyDto=" + currencyDto +
-                ", amount=" + amount +
-                ", plnAmount=" + plnAmount +
-                '}';
-    }
-
 }

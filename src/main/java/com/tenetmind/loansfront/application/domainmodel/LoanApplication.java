@@ -61,21 +61,4 @@ public class LoanApplication {
         return id.hashCode();
     }
 
-    @Override
-    public String toString() {
-        return "LoanApplication{" +
-                "id=" + id +
-                ", date=" + date +
-                ", customerId=" + customerId +
-                ", firstName='" + firstName + '\'' +
-                ", lastName='" + lastName + '\'' +
-                ", pesel='" + pesel + '\'' +
-                ", currency='" + currencyName.getName() + '\'' +
-                ", amount=" + amount +
-                ", period=" + period +
-                ", marginRate=" + marginRate +
-                ", status='" + status + '\'' +
-                '}';
-    }
-
 }

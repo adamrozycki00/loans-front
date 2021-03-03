@@ -1,7 +1,6 @@
 package com.tenetmind.loansfront.view;
 
 import com.tenetmind.loansfront.loan.domainmodel.Loan;
-import com.vaadin.flow.component.Text;
 import com.vaadin.flow.component.button.Button;
 import com.vaadin.flow.component.button.ButtonVariant;
 import com.vaadin.flow.component.formlayout.FormLayout;

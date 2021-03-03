@@ -24,17 +24,4 @@ public class Installment {
     private BigDecimal principal;
     private BigDecimal interest;
 
-    @Override
-    public String toString() {
-        return " {" +
-                "id=" + id +
-                ", date=" + date +
-                ", loan=" + loan +
-                ", number=" + number +
-                ", currency=" + currency +
-                ", principal=" + principal +
-                ", interest=" + interest +
-                '}';
-    }
-
 }

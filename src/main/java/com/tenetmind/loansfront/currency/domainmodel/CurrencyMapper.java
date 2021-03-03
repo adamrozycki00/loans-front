@@ -19,14 +19,4 @@ public class CurrencyMapper {
                 entity.getName().getName());
     }
 
-    public CurrencyDto mapToDto(final String name) {
-        return service.get(name);
-    }
-
-    public List<CurrencyDto> mapToDtoList(final List<Currency> currencies) {
-        return currencies.stream()
-                .map(this::mapToDto)
-                .collect(Collectors.toList());
-    }
-
 }

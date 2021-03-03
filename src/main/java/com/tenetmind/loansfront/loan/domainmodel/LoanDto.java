@@ -36,25 +36,4 @@ public class LoanDto {
     private List<InstallmentDto> scheduleDto;
     private List<OperationDto> operationDtos;
 
-    @Override
-    public String toString() {
-        return "LoanDto{" +
-                "id=" + id +
-                ", date=" + date +
-                ", applicationDto=" + applicationDto +
-                ", customerDto=" + customerDto +
-                ", currencyDto=" + currencyDto +
-                ", amount=" + amount +
-                ", period=" + period +
-                ", baseRate=" + baseRate +
-                ", marginRate=" + marginRate +
-                ", balance=" + balance +
-                ", amountToPay=" + amountToPay +
-                ", numberOfInstallmentsPaid=" + numberOfInstallmentsPaid +
-                ", status='" + status + '\'' +
-                ", scheduleDto=" + scheduleDto +
-                ", operationDtos=" + operationDtos +
-                '}';
-    }
-
 }

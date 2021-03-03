@@ -105,12 +105,4 @@ public class LoanApplicationService {
         return application;
     }
 
-    @Override
-    public String toString() {
-        return "LoanApplicationService{" +
-                "client=" + client +
-                ", mapper=" + mapper +
-                '}';
-    }
-
 }
