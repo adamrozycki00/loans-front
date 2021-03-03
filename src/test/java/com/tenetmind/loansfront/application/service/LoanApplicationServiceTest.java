@@ -146,6 +146,34 @@ class LoanApplicationServiceTest {
     }
 
     @Test
+    public void shouldNotSaveApplicationWithStatusAccepted() {
+        //given
+        CustomerDto customerDto = new CustomerDto(1L, "John", "Smith", "12345");
+        CurrencyDto currencyDto = new CurrencyDto(1L, "EUR");
+
+        long testId = 1L;
+
+        String statusOfApplicationDto = "Accepted";
+
+        LoanApplicationDto applicationDto = new LoanApplicationDto(testId, LocalDateTime.now(), customerDto,
+                currencyDto, new BigDecimal("1000"), 12, new BigDecimal(".05"), statusOfApplicationDto);
+
+        List<LoanApplicationDto> loanApplicationDtoList = new ArrayList<>();
+        loanApplicationDtoList.add(applicationDto);
+
+        LoanApplication application = new LoanApplication(applicationDto);
+
+        when(client.createApplication(any())).thenReturn(false);
+        when(client.getApplicationDto(Long.parseLong(application.getId()))).thenReturn(applicationDto);
+
+        //when
+        boolean result = service.save(application);
+
+        //then
+        assertFalse(result);
+    }
+
+    @Test
     public void shouldAcceptApplicationWithStatusNew() {
         //given
         CustomerDto customerDto = new CustomerDto(1L, "John", "Smith", "12345");
