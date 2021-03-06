@@ -2,6 +2,7 @@ package com.tenetmind.loansfront.loan.domainmodel;
 
 import com.tenetmind.loansfront.application.domainmodel.LoanApplicationDto;
 import com.tenetmind.loansfront.currency.domainmodel.CurrencyDto;
+import com.tenetmind.loansfront.currency.domainmodel.CurrencyName;
 import com.tenetmind.loansfront.customer.domainmodel.CustomerDto;
 import com.tenetmind.loansfront.installment.domainmodel.InstallmentDto;
 import com.tenetmind.loansfront.operation.domainmodel.OperationDto;
@@ -28,7 +29,7 @@ public class Loan {
     private String firstNameString;
     private String lastNameString;
     private CurrencyDto currencyDto;
-    private String currencyString;
+    private CurrencyName currencyName;
     private BigDecimal amount;
     private String amountString;
     private Integer period;

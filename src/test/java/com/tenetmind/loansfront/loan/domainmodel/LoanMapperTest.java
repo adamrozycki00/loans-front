@@ -4,6 +4,7 @@ import com.tenetmind.loansfront.application.domainmodel.LoanApplication;
 import com.tenetmind.loansfront.application.domainmodel.LoanApplicationDto;
 import com.tenetmind.loansfront.application.domainmodel.LoanApplicationMapper;
 import com.tenetmind.loansfront.currency.domainmodel.CurrencyDto;
+import com.tenetmind.loansfront.currency.domainmodel.CurrencyNameFactory;
 import com.tenetmind.loansfront.currency.service.CurrencyService;
 import com.tenetmind.loansfront.customer.domainmodel.CustomerDto;
 import com.tenetmind.loansfront.installment.domainmodel.InstallmentDto;
@@ -50,7 +51,7 @@ public class LoanMapperTest {
                 application.getFirstName(),
                 application.getLastName(),
                 currencyDto,
-                currencyDto.getName(),
+                CurrencyNameFactory.getInstance().makeCurrencyName(currencyDto.getName()),
                 applicationDto.getAmount(),
                 applicationDto.getAmount().toString(),
                 applicationDto.getPeriod(),

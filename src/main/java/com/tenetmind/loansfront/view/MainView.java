@@ -106,7 +106,7 @@ public class MainView extends VerticalLayout {
         loanGrid.addColumn(Loan::getDateString).setHeader("Date");
         loanGrid.addColumn(Loan::getFirstNameString).setHeader("First name");
         loanGrid.addColumn(Loan::getLastNameString).setHeader("Last name");
-        loanGrid.addColumn(Loan::getCurrencyString).setHeader("Currency");
+        loanGrid.addColumn(Loan::getCurrencyName).setHeader("Currency");
         loanGrid.addColumn(Loan::getAmountString).setHeader("Amount");
         loanGrid.addColumn(Loan::getBalanceString).setHeader("Balance");
         loanGrid.addColumn(Loan::getNextInstallmentString).setHeader("Next installment");

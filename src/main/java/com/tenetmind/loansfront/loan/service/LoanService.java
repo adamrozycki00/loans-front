@@ -45,7 +45,7 @@ public class LoanService {
     }
 
     public void makeLoan(Loan loan) {
-        boolean currencyRateIsUpToDate = checkForUpToDateRate(loan.getCurrencyString());
+        boolean currencyRateIsUpToDate = checkForUpToDateRate(loan.getCurrencyName().getName());
         if (!currencyRateIsUpToDate) {
             Notification.show("No up-to-date currency rate for the loan");
         } else {
@@ -60,13 +60,13 @@ public class LoanService {
     }
 
     public void payInstallment(Loan loan) {
-        boolean currencyRateIsUpToDate = checkForUpToDateRate(loan.getCurrencyString());
+        boolean currencyRateIsUpToDate = checkForUpToDateRate(loan.getCurrencyName().getName());
         if (!currencyRateIsUpToDate) {
             Notification.show("No up-to-date currency rate for the loan");
         } else {
             if (ACTIVE.equals(loan.getStatus()) && loan.getBalance().compareTo(BigDecimal.ZERO) > 0) {
                 PaymentDto paymentDto = new PaymentDto(LocalDate.now(), loan.getId(),
-                        loan.getCurrencyString(), new BigDecimal(loan.getNextInstallmentString()));
+                        loan.getCurrencyName().getName(), new BigDecimal(loan.getNextInstallmentString()));
                 paymentClient.payInstallment(paymentDto);
             } else {
                 Notification.show("You can only pay installment for active loans");

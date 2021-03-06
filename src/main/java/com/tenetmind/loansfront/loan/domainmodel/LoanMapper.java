@@ -1,5 +1,6 @@
 package com.tenetmind.loansfront.loan.domainmodel;
 
+import com.tenetmind.loansfront.currency.domainmodel.CurrencyNameFactory;
 import com.tenetmind.loansfront.loan.service.LoanService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -9,6 +10,7 @@ public class LoanMapper {
 
     @Autowired
     private LoanService service;
+
 
     public LoanDto mapToDto(Loan loan) {
         return new LoanDto(
@@ -39,7 +41,7 @@ public class LoanMapper {
                 loanDto.getCustomerDto().getFirstName(),
                 loanDto.getCustomerDto().getLastName(),
                 loanDto.getCurrencyDto(),
-                loanDto.getCurrencyDto().getName(),
+                CurrencyNameFactory.getInstance().makeCurrencyName(loanDto.getCurrencyDto().getName()),
                 loanDto.getAmount(),
                 loanDto.getAmount().toString(),
                 loanDto.getPeriod(),
